@@ -4,7 +4,8 @@ module Tolk
 
     scope :containing_text, lambda {|query| where("tolk_translations.text LIKE ?", "%#{query}%") }
 
-    serialize :text
+    serialize :text, Object
+    serialize :previous_text, Object
     validates_presence_of :text, :if => proc {|r| r.primary.blank? && !r.explicit_nil }
     validate :check_matching_variables, :if => proc { |tr| tr.primary_translation.present? }
 
@@ -41,6 +42,7 @@ module Tolk
     end
 
     def text=(value)
+      value = value.to_s if value.kind_of?(Fixnum)
       super unless value.to_s == text
     end
 
@@ -86,7 +88,6 @@ module Tolk
           rescue ArgumentError
             nil
           end
-
         end
 
         self.text = nil if primary_translation.text.class != self.text.class
