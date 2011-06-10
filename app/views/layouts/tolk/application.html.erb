@@ -9,7 +9,7 @@
   <% if respond_to?(:sprockets_include_tag) %>
     <%= sprockets_include_tag %>
   <% else %>
-    <%= javascript_include_tag *%w(prototype prototype-ujs effects dragdrop controls).map{ |js| "tolk/#{js}" } %>
+    <%= javascript_include_tag *%w(prototype prototype_ujs effects dragdrop controls).map{ |js| "tolk/#{js}" } %>
   <% end %>
 
   <%= stylesheet_link_tag "tolk/reset" %>
